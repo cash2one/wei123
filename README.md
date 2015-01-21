@@ -1,1 +1,4 @@
-# wei123
+# Weixin 
+---
+### Django project
+[LINK](www.xierqi.net/wei123)
