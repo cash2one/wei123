@@ -26,6 +26,18 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+STATIC_URL = '/static/'
+
+STATIC_ROOT = 'C:/Users/u0124075/workspace/dealerweb/static'
 
 # Application definition
 
