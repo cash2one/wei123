@@ -1,25 +1,15 @@
-{% load staticfiles %}
 <html>
 
 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
 <link href='http://fonts.useso.com/css?family=Open+Sans:300,400,600&subset=latin,latin-ext' rel='stylesheet'>
-<link rel="stylesheet" href={% static 'css/dashboard.css' %}>
-
-<script type="text/javascript">
-
-function goURL(url){
-  window.alert(url);
-  window.location.href(url);
-}
-
-</script>
+<link rel="stylesheet" href='../static/css/dashboard.css'>
 
 <meta charset="utf-8">
 
-{% block title %}<title>Weixin Book</title>{% endblock %}
+<title>Weixin Book</title>
 <body>
-{% block navbar %}
+
  <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -40,11 +30,10 @@ function goURL(url){
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-{% endblock %}
+
 
 <div class="container-fluid">
       <div class="row">
-      <!--
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
@@ -54,11 +43,8 @@ function goURL(url){
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        -->
-        <div class="col-sm-12 main">
           <h1 class="page-header">Dashboard</h1>
-          <button type="button" class="btn btn-lg btn-success" onClick="location.href='/wei/collect'">Collect News</button>
-          <button type="button" class="btn btn-lg btn-danger" onClick="location.href='/wei/clean'">Clean News</button>
+          <button type="button" class="btn btn-lg btn-success">Collect News</button>
           <h2 class="sub-header">Weixin Articles</h2>
           <div class="table-responsive">
             <table class="table table-striped">
@@ -70,14 +56,11 @@ function goURL(url){
                 </tr>
               </thead>
               <tbody>
-                {% for article in article_list %}
-                    <tr>
-                      <td><a href="{{article.post_link}}" target="_blank">{{article.post_title}}</a></td>
-                      <td>{{article.post_user}}</td>
-                      <td>{{article.post_date}}</td>
-                    </tr>
-                {% endfor %}
-                
+                <tr>
+                  <td>1,001</td>
+                  <td>Lorem</td>
+                  <td>ipsum</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -85,10 +68,8 @@ function goURL(url){
       </div>
     </div>
 
-<!--
 <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
--->
 
 </body>
 </html>
