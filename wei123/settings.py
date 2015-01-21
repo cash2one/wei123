@@ -37,7 +37,7 @@ STATICFILES_FINDERS = (
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = 'C:/Users/u0124075/workspace/dealerweb/static'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'weisite/static/')
 
 # Application definition
 
