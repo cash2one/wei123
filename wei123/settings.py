@@ -94,6 +94,3 @@ STATICFILES_DIRS = (
     '/usr/local/nginx/html/wei123/weisite/static',
 )
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'weisite/static/')
-
-
