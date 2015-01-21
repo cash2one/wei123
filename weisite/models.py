@@ -9,3 +9,7 @@ class weixin_article(models.Model):
     
     def __unicode():
         return u'%s' % (post_title)
+
+class common_status(models.Model):
+    key = models.CharField(max_length=100)
+    value = models.CharField(max_length=100)
