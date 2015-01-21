@@ -5,5 +5,5 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^wei/', include('weisite.urls')),
+    url(r'^weixin/', include('weisite.urls')),
 )

@@ -38,8 +38,8 @@ def collect(request):
         if total_no > 0:
             common_status(key='netease_pos', value=str(total_no)).save()
 
-    return HttpResponse('<a href="/wei/home">Back</a> Updated:%d StartPos:%d Total Articles:%d' % (i, start_pos, total_no))
+    return HttpResponse('<a href="/weixin/home">Back</a> Updated:%d StartPos:%d Total Articles:%d' % (i, start_pos, total_no))
 
 def clean(request):
     weixin_article.objects.all().delete()
-    return HttpResponse('<a href="/wei/home">Back</a> Cleaned')
+    return HttpResponse('<a href="/weixin/home">Back</a> Cleaned')
