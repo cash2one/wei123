@@ -5,8 +5,9 @@ import wei123.settings
 from django.template import Template, Context
 from django.template.loader import get_template
 from django.shortcuts import render_to_response
-from weisite.models import weixin_article, common_status
+from weisite.models import weixin_article, weixin_poster, common_status
 from weisite.weixinnetease import WeixinNetease
+from weisite.weixin_netease_poster import WeixinNeteasePoster
 
 # Create your views here.
 def home(request):
@@ -43,3 +44,11 @@ def collect(request):
 def clean(request):
     weixin_article.objects.all().delete()
     return HttpResponse('<a href="/weixin/home">Back</a> Cleaned')
+
+def subscriber(request):
+    app = WeixinNeteasePoster()
+    posters, total = app.gather()
+    for poster in posters:
+        #print '%d,%s,%s,%d' % (poster)
+        weixin_poster(poster_id = poster[0],poster_b64 = poster[1],poster_name = poster[2],poster_last_thread = poster[3]).save()
+    return HttpResponse('<a href="/weixin/home">Back</a> Done')
