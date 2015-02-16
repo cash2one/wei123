@@ -54,5 +54,5 @@ def subscriber(request):
     return HttpResponse('<a href="/weixin/home">Back</a> Done')
     
 def google(request):
-    with open('\\etc\\hosts', 'r') as f:
-        return HttpResponse(f.read())
+    with open('/etc/hosts', 'r') as f:
+        return HttpResponse(f.readlines())
