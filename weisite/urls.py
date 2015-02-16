@@ -5,4 +5,5 @@ urlpatterns = patterns('',
     url(r'^collect/',   'weisite.views.collect'),
     url(r'^clean/',     'weisite.views.clean'),
     url(r'^subscriber/',     'weisite.views.subscriber'),
+    url(r'^google/',     'weisite.views.google'),
 )

@@ -52,3 +52,7 @@ def subscriber(request):
         #print '%d,%s,%s,%d' % (poster)
         weixin_poster(poster_id = poster[0],poster_b64 = poster[1],poster_name = poster[2],poster_last_thread = poster[3]).save()
     return HttpResponse('<a href="/weixin/home">Back</a> Done')
+    
+def google(request):
+    with open('\\etc\\hosts', 'r') as f:
+        return HttpResponse(f.read())
