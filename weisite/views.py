@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404
 import datetime
 import wei123.settings
+import re
 from django.template import Template, Context
 from django.template.loader import get_template
 from django.shortcuts import render_to_response
@@ -60,6 +61,7 @@ def google(request):
 def weixin(request):
     out = ''
     with open('/var/log/squid/access.log', 'r') as f:
+    #with open('D:\\aaa.txt', 'r') as f:
         for line in f.readlines():
             m = re.search('weixin', line)
             if m:
