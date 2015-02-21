@@ -56,3 +56,12 @@ def subscriber(request):
 def google(request):
     with open('/etc/hosts', 'r') as f:
         return HttpResponse(f.readlines())
+
+def weixin(request):
+    out = ''
+    with open('/var/log/squid/access.log', 'r') as f:
+        for line in f.readlines():
+            m = re.search('weixin', line)
+            if m:
+                out += line
+    return HttpResponse(out)
