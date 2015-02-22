@@ -96,3 +96,5 @@ STATICFILES_DIRS = (
 
 #LOG_FILE='/var/log/squid/access.log'
 LOG_FILE='D:\\access.log'
+
+APPEND_SLASH=False

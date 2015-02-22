@@ -3,3 +3,4 @@
 .project
 .pydevproject
 *.pyc
+db.sqlite3

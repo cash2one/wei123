@@ -19,27 +19,31 @@ class WeixinHistory(object):
         self.poster_b64 = ''
 
 
-    def gather(self, poster_id, user_id, key):
+    def gather(self, poster_id, user_id, key, max_depth=1):
         '''
         :param poster_id: poster id integer not b64
         :param user_id: user_id in b64 string
         :param key: weixin session
         :return: the article tuples
         '''
-        self.poster_id = poster_id
-        self.poster_b64 = base64.b64encode(str(self.poster_id))
+        self.poster_id = int(base64.b64decode(poster_id))
+        self.poster_b64 = poster_id
+        self.user_id = user_id
+        self.key = key
 
         url = 'http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=%s&uin=%s&key=%s&devicetype=android-17&version=2600023a&lang=zh_CN&count=10&f=json' \
-              % (self.poster_b64, user_id, key)
+              % (self.poster_b64, self.user_id, self.key)
         #print url
-        return self.parse_url(url)
+        return self.parse_url(url, max_depth)
+        
 
-    def parse_url(self, urlparam):
+    def parse_url(self, urlparam, max_depth=1):
         is_continue = True
         url = urlparam
         whole_msg_list = []
+        depth = 0
 
-        while(is_continue):
+        while( (depth < max_depth) and is_continue):
             weixin_headers = {'User-Agent': 'MicroMessenger Client'}
             stream = urllib2.urlopen(urllib2.Request(url, headers=weixin_headers))
             msg_list, is_continue = self.parse(stream)
@@ -48,9 +52,11 @@ class WeixinHistory(object):
 
             if is_continue:
                 url = 'http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=%s&uin=%s&key=%s&devicetype=android-17&version=2600023a&lang=zh_CN&frommsgid=%d&count=10&f=json' \
-                    % (self.poster_b64, user_id, key, msg_list[-1][2])
+                    % (self.poster_b64, self.user_id, self.key, msg_list[-1][2])
                 print url
                 time.sleep(1) #traffic control
+                
+            depth += 1
         return whole_msg_list
 
 
@@ -91,7 +97,7 @@ class WeixinHistory(object):
                 app_msg_ext_info['title'], \
                 app_msg_ext_info['content_url'].replace("&amp;", "&").replace("\\/", "/"), \
                 app_msg_ext_info['cover'].replace("&amp;", "&").replace("\\/", "/"), \
-                self.poster_b64, \
+                self.poster_id, \
                 True))
 
             multi_app_msg_item_list = list_item['app_msg_ext_info']['multi_app_msg_item_list']
@@ -105,7 +111,7 @@ class WeixinHistory(object):
                         item['title'], \
                         item['content_url'].replace("&amp;", "&").replace("\\/", "/"), \
                         item['cover'].replace("&amp;", "&").replace("\\/", "/"), \
-                        self.poster_b64, \
+                        self.poster_id, \
                         True))
 
         return msg_list,is_continue
@@ -129,11 +135,12 @@ class WeixinHistory(object):
 # poster_id = 3090393809
 # uid = 228986657
 if __name__ == '__main__':
-    poster_id = 1632475601
+    poster_id = 'MjM5NDI3NjE0MQ=='
     user_id = 'MjI4OTg2NjU%3D'
-    key = '8ea74966bf01cfb64fbf45ee37fb34f29a3473791f910bcab3435c048f37ff58775e301085681084f88282828690d756'
+    key = '8ea74966bf01cfb64dee1608d1207977f5b11c1ffc5742fc48802af9705e1f036ca5aeec74473c01590055047fcddf1d'
+    max_depth = 1
     app = WeixinHistory()
-    info = app.gather(poster_id, user_id, key)
+    info = app.gather(poster_id, user_id, key, max_depth)
     for item in info:
         print item
     # info = app.parse(open('out.htm', 'r'))

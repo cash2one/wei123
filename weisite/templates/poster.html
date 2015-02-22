@@ -42,8 +42,8 @@ function goURL(url){
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="/weixin/poster">Poster</a></li>
+            <li><a href="/weixin/home">Home</a></li>
+            <li class="active" href="poster"><a href="#">Poster</a></li>
             <li><a href="/weixin/key">Session</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
@@ -67,27 +67,40 @@ function goURL(url){
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         -->
         <div class="col-sm-12 main">
-          <!--
           <h1 class="page-header">Dashboard</h1>
-          <button type="button" class="btn btn-lg btn-success" onClick="location.href='/weixin/collect'">Collect News</button>
-          <button type="button" class="btn btn-lg btn-danger" onClick="location.href='/weixin/clean'">Clean News</button>
-          -->
-          <h2 class="sub-header">Weixin Articles</h2>
+            <form action='/weixin/key' method="GET">
+                <input type="text" class="form-control" name="inputURL" placeholder="http://">
+                <input type="hidden" name="action" value="addposter">
+                <button type="submit" class="btn btn-success">Create account</button>
+            </form>
+          <h2 class="sub-header">Weixin Poster</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>Poster</th>
-                  <th>Date</th>
+                  <th>ID</th>
+                  <th>B64</th>
+                  <th>Name</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {% for article in article_list %}
+                {% for poster in poster_list %}
                     <tr>
-                      <td><a href="{{article.content_url}}" target="_blank">{{article.title}}</a></td>
-                      <td>{{article.poster_id_id}}</td>
-                      <td>{{article.datetime}}</td>
+                      <td>{{poster.poster_id}}</td>
+                      <td>{{poster.poster_b64}}</td>
+                      <td>{{poster.poster_name}}</td>
+                      <td>
+                            <!-- Single button -->
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                Action <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" role="menu">
+                                <li><a href="/weixin/key?action=gather&poster={{poster.poster_b64}}">Spaw</a></li>
+                              </ul>
+                            </div>
+                      </td>
                     </tr>
                 {% endfor %}
                 
@@ -98,10 +111,8 @@ function goURL(url){
       </div>
     </div>
 
-<!--
 <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
--->
 
 </body>
 </html>
