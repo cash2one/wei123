@@ -131,7 +131,7 @@ class WeixinHistory(object):
 if __name__ == '__main__':
     poster_id = 1632475601
     user_id = 'MjI4OTg2NjU%3D'
-    key = '79cf83ea5128c3e53c5994bf3d4e0cda772da22c1e30d0c41dad4beb68c30d10f2903f9faefa9127b8ac18998a6c9133'
+    key = '8ea74966bf01cfb64fbf45ee37fb34f29a3473791f910bcab3435c048f37ff58775e301085681084f88282828690d756'
     app = WeixinHistory()
     info = app.gather(poster_id, user_id, key)
     for item in info:

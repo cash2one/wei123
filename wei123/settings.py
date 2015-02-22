@@ -94,3 +94,5 @@ STATICFILES_DIRS = (
     '/usr/local/nginx/html/wei123/weisite/static',
 )
 
+#LOG_FILE='/var/log/squid/access.log'
+LOG_FILE='D:\\access.log'

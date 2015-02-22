@@ -59,27 +59,37 @@ def google(request):
     with open('/etc/hosts', 'r') as f:
         return HttpResponse(f.readlines())
 
-#LOG_FILE='/var/log/squid/access.log'
-LOG_FILE='D:\\access.log'
-
 def weixin_log(request):
     #out = ''
     out = '<style>body{font-size:12px;font-family:Consolas;Georgia,Serif;} span{color:red;}</style>'
-    with open(LOG_FILE, 'r') as f:
+    with open(wei123.settings.LOG_FILE, 'r') as f:
         for line in f.readlines():
             m = re.search('getmasssendmsg', line)
             if m:
                 out += '<span>' + line + '</span><br>'
                 paras = line[line.find('?')+1:]
                 paras = paras[:paras.find(' ')]
+                
+                biz = ''
+                uin = ''
+                key = ''
+                version = ''
                 for keyval in paras.split('&'):
                     vals = keyval.split('=')
                     if vals[0] == '__biz':
                         vals[0] = 'biz'
+                        biz = vals[1]
+                    if vals[0] == 'uin':
+                        uin = vals[1]
+                    if vals[0] == 'uin':
+                        version  = vals[1]
                     if vals[0] == 'key':
                         out += '<strong>%-10s:%s</strong>' % (vals[0], vals[1]) + '<br>'
+                        key = vals[1]
                     else:
                         out += '<strong>%-10s</strong>:%s' % (vals[0], vals[1]) + '<br>'
+                out += '<strong>[DEBUG]</strong><br>'
+                out += '<a href="http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=%s&uin=%s&key=%s&devicetype=android-17&version=%s&lang=zh_CN&count=10&f=json">LINK</a><br>' % (biz, uin, key, version)
                 out += '<hr>'
     return HttpResponse(out)
 
