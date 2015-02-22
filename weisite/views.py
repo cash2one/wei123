@@ -75,19 +75,23 @@ def weixin_log(request):
                 key = ''
                 version = ''
                 for keyval in paras.split('&'):
+                    val = ''
                     vals = keyval.split('=')
+                    
+                    val = vals[1]
                     if vals[0] == '__biz':
                         vals[0] = 'biz'
-                        biz = vals[1]
+                        val = keyval[keyval.find('=')+1:]
+                        biz = val
                     if vals[0] == 'uin':
-                        uin = vals[1]
-                    if vals[0] == 'uin':
-                        version  = vals[1]
+                        uin = val
+                    if vals[0] == 'version':
+                        version  = val
                     if vals[0] == 'key':
-                        out += '<strong>%-10s:%s</strong>' % (vals[0], vals[1]) + '<br>'
-                        key = vals[1]
+                        out += '<strong>%-10s:%s</strong>' % (vals[0], val) + '<br>'
+                        key = val
                     else:
-                        out += '<strong>%-10s</strong>:%s' % (vals[0], vals[1]) + '<br>'
+                        out += '<strong>%-10s</strong>:%s' % (vals[0], val) + '<br>'
                 out += '<strong>[DEBUG]</strong><br>'
                 out += '<a href="http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=%s&uin=%s&key=%s&devicetype=android-17&version=%s&lang=zh_CN&count=10&f=json">LINK</a><br>' % (biz, uin, key, version)
                 out += '<hr>'
