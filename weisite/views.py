@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404
 import datetime
 import wei123.settings
 import re
+import base64
 from django.template import Template, Context
 from django.template.loader import get_template
 from django.shortcuts import render_to_response
@@ -58,12 +59,33 @@ def google(request):
     with open('/etc/hosts', 'r') as f:
         return HttpResponse(f.readlines())
 
-def weixin(request):
-    out = ''
-    with open('/var/log/squid/access.log', 'r') as f:
-    #with open('D:\\aaa.txt', 'r') as f:
+#LOG_FILE='/var/log/squid/access.log'
+LOG_FILE='D:\\access.log'
+
+def weixin_log(request):
+    #out = ''
+    out = '<style>body{font-size:12px;font-family:Consolas;Georgia,Serif;} span{color:red;}</style>'
+    with open(LOG_FILE, 'r') as f:
         for line in f.readlines():
-            m = re.search('weixin', line)
+            m = re.search('getmasssendmsg', line)
             if m:
-                out += line
+                out += '<span>' + line + '</span><br>'
+                paras = line[line.find('?')+1:]
+                paras = paras[:paras.find(' ')]
+                for keyval in paras.split('&'):
+                    vals = keyval.split('=')
+                    if vals[0] == '__biz':
+                        vals[0] = 'biz'
+                    if vals[0] == 'key':
+                        out += '<strong>%-10s:%s</strong>' % (vals[0], vals[1]) + '<br>'
+                    else:
+                        out += '<strong>%-10s</strong>:%s' % (vals[0], vals[1]) + '<br>'
+                out += '<hr>'
+    return HttpResponse(out)
+
+def full_log(request):
+    out = ''
+    with open(LOG_FILE, 'r') as f:
+        for line in f.readlines():
+            out += line
     return HttpResponse(out)
