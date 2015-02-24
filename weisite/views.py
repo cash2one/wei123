@@ -136,6 +136,18 @@ def weixin_log(request):
         out += 'poster delete info:%s<br>' % (id)
         return HttpResponse(out)
         
+    if action == 'GETFILE':
+        path = request.REQUEST.get('filename', '')
+        if path:
+            f = open(path, 'rb')
+            data = f.read()
+            f.close()
+            response = HttpResponse(data,mimetype='application/octet-stream') 
+            response['Content-Disposition'] = 'attachment; filename=%s' % path
+            return response
+        else:
+            return HttpResponse(out)
+        
     out += '<a href="http://json-format.coding.io/" target="_blank">JSON Decodo Online</a><br><hr>'
     with open(wei123.settings.LOG_FILE, 'r') as f:
         for line in f.readlines():
