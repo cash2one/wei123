@@ -15,7 +15,7 @@ from weisite.weixin_poster import WeixinPoster
 
 # Create your views here.
 def home(request):
-    articles = weixin_article_info.objects.all()
+    articles = weixin_article_info.objects.all().order_by('-datetime')
     return render_to_response('index.html', {'article_list' : articles})
 
 def poster(request):
