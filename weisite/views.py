@@ -12,10 +12,20 @@ from weisite.weixinnetease import WeixinNetease
 from weisite.weixin_netease_poster import WeixinNeteasePoster
 from weisite.weixin_history import WeixinHistory
 from weisite.weixin_poster import WeixinPoster
+from itertools import chain
+from django.db.models import Q
 
 # Create your views here.
 def home(request):
-    articles = weixin_article_info.objects.all().order_by('-datetime')
+    # https://docs.djangoproject.com/en/1.7/topics/db/queries/
+    # https://docs.djangoproject.com/en/1.7/ref/models/querysets/
+    # select by poster
+    #articles = weixin_article_info.objects.filter(poster_id_id=3090393809).order_by('-datetime')
+    
+    articles = weixin_article_info.objects.select_related('weixin_poster').order_by('-datetime')
+    for article in articles:
+        # change the datetime format
+        article.datetime = datetime.datetime.fromtimestamp(article.datetime).strftime('%Y-%m-%d %H:%M:%S')
     return render_to_response('index.html', {'article_list' : articles})
 
 def poster(request):
@@ -108,6 +118,22 @@ def weixin_log(request):
             weixin_poster(poster_id=item[0],poster_b64=item[1],poster_name=item[2],poster_last_thread=item[3]).save()
             out += 'poster name:%s<br>' % (item[2])
         out += 'poster added:%s<br>' % (url)
+        return HttpResponse(out)
+        
+    if action == 'REMOVE_ARTICLES':
+        id = request.REQUEST.get('poster', '')
+        if id:
+            weixin_article_info.objects.filter(poster_id=int(id)).delete()
+            out += 'articles deleted:%s<br>' % (id)
+        out += 'articles delete info:%s<br>' % (id)
+        return HttpResponse(out)
+    
+    if action == 'REMOVE_POSTER':
+        id = request.REQUEST.get('poster', '')
+        if id:
+            weixin_poster.objects.filter(poster_id=int(id)).delete()
+            out += 'poster deleted:%s<br>' % (id)
+        out += 'poster delete info:%s<br>' % (id)
         return HttpResponse(out)
         
     out += '<a href="http://json-format.coding.io/" target="_blank">JSON Decodo Online</a><br><hr>'
