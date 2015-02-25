@@ -67,7 +67,7 @@ def subscriber(request):
     posters, total = app.gather()
     for poster in posters:
         #print '%d,%s,%s,%d' % (poster)
-        weixin_poster(poster_id = poster[0],poster_b64 = poster[1],poster_name = poster[2],poster_last_thread = poster[3]).save()
+        weixin_poster(poster_id = poster[0],poster_b64 = poster[1],poster_name = poster[2],poster_qrcode = poster[3], poster_last_thread = poster[4]).save()
     return HttpResponse('<a href="/weixin/home">Back</a> Done')
     
 def google(request):
@@ -94,12 +94,15 @@ def weixin_log(request):
             
         if key:
             app = WeixinHistory()
-            info = app.gather(poster_id, user_id, key, max_depth)
-            for item in info:
-                out += '<a href="%s" target="_blank">%s</a><br>' % (item[5], item[4])
-                
-                poster = weixin_poster.objects.get(poster_id=item[7])  
-                weixin_article_info(id=item[0],fileid=item[1],mid=item[2],datetime=item[3],title=item[4],content_url=item[5],cover_url=item[6],poster_id=poster,is_display=item[8]).save()
+            ret_code, info = app.gather(poster_id, user_id, key, max_depth)
+            if ret_code == 0:
+                for item in info:
+                    out += '<a href="%s" target="_blank">%s</a><br>' % (item[5], item[4])
+                    
+                    poster = weixin_poster.objects.get(poster_id=item[7])  
+                    weixin_article_info(id=item[0],fileid=item[1],mid=item[2],datetime=item[3],title=item[4],content_url=item[5],cover_url=item[6],poster_id=poster,is_display=item[8]).save()
+            else:
+                out += 'error code:%d<br>' % (ret_code)
         else:
             out += 'empty key:' + key 
         return HttpResponse(out)

@@ -16,15 +16,6 @@
 
 {% block title %}<title>微信聚合阅读</title>{% endblock %}
 
-<script type="text/javascript">
-
-function goURL(url){
-  window.alert(url);
-  window.location.href(url);
-}
-
-</script>
-
 </head>
 
 <body>
@@ -89,7 +80,7 @@ function goURL(url){
                     <tr>
                       <td>{{poster.poster_id}}</td>
                       <td>{{poster.poster_b64}}</td>
-                      <td>{{poster.poster_name}}</td>
+                      <td><a href="http://mp.weixin.qq.com/mp/qrcode?scene=10000004&size=102&__biz={{poster.poster_b64}}" target="_blank">{{poster.poster_name}}</td>
                       <td>
                             <!-- Single button -->
                             <div class="btn-group">
@@ -115,6 +106,12 @@ function goURL(url){
 
 <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#weixin_qrcode').hide();
+    $('#poster').hover(function(){$('#weixin_qrcode').show();}, function(){$('#weixin_qrcode').hide();});    
+});
+</script>
 
 </body>
 </html>

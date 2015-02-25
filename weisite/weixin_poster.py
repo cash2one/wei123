@@ -29,14 +29,21 @@ class WeixinPoster(object):
             weixin_b64 = m.group(1)
 
         weixin_name = self.parse(content)
-
+        
         return (weixin_id, weixin_b64, weixin_name, 1)
 
     def parse(self, stream):
         soup = BeautifulSoup(stream.read())
+        with open('d:\\out.txt','w') as f:
+            f.write(soup.prettify())
         node = soup.find('a', attrs={'id':'post-user'})
         if node:
             weixin_poster = node.getText()
+        node = soup.find('img', attrs={'id':'js_pc_qr_code_img'})
+        if node:
+            print node
+            #weixin_qrcode = node['src']
+            #print weixin_qrcode
         return weixin_poster
 
 

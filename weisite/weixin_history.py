@@ -38,6 +38,9 @@ class WeixinHistory(object):
         
 
     def parse_url(self, urlparam, max_depth=1):
+        '''
+        ' return ret_code, and whole_msg_list
+        '''
         is_continue = True
         url = urlparam
         whole_msg_list = []
@@ -46,24 +49,32 @@ class WeixinHistory(object):
         while( (depth < max_depth) and is_continue):
             weixin_headers = {'User-Agent': 'MicroMessenger Client'}
             stream = urllib2.urlopen(urllib2.Request(url, headers=weixin_headers))
-            msg_list, is_continue = self.parse(stream)
-            if msg_list:
-                whole_msg_list += msg_list
+            ret_code, msg_list, is_continue = self.parse(stream)
+            if ret_code == 0:
+                if msg_list:
+                    whole_msg_list += msg_list
 
-            if is_continue:
-                url = 'http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=%s&uin=%s&key=%s&devicetype=android-17&version=2600023a&lang=zh_CN&frommsgid=%d&count=10&f=json' \
-                    % (self.poster_b64, self.user_id, self.key, msg_list[-1][2])
-                print url
-                time.sleep(1) #traffic control
-                
-            depth += 1
-        return whole_msg_list
+                if is_continue:
+                    url = 'http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=%s&uin=%s&key=%s&devicetype=android-17&version=2600023a&lang=zh_CN&frommsgid=%d&count=10&f=json' \
+                        % (self.poster_b64, self.user_id, self.key, msg_list[-1][2])
+                    print url
+                    time.sleep(1) #traffic control
+                depth += 1
+            else:
+                # error todo log here
+                break;
+        return ret_code, whole_msg_list
 
 
 
     def parse(self, stream):
+        '''
+        ' return ret_code, msg_list, is_continue
+        ' once ret_code = 0, others are meaningful.
+        '''
         msg_list = []
         is_continue = False
+        ret_code = 0
 
         json_content = stream.read()
         json_obj = json.loads(json_content)
@@ -71,7 +82,8 @@ class WeixinHistory(object):
         if int(json_obj['ret']) < 0:
             # -3 no session
             # -6 traffic control
-            return
+            ret_code = int(json_obj['ret'])
+            return ret_code, msg_list, is_continue
 
         if int(json_obj['is_continue']) == 1:
             is_continue = True
@@ -114,7 +126,7 @@ class WeixinHistory(object):
                         self.poster_id, \
                         True))
 
-        return msg_list,is_continue
+        return ret_code, msg_list,is_continue
         
 
 
