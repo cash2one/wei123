@@ -14,6 +14,7 @@ from weisite.weixin_history import WeixinHistory
 from weisite.weixin_poster import WeixinPoster
 from itertools import chain
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 def home(request):
@@ -22,11 +23,22 @@ def home(request):
     # select by poster
     #articles = weixin_article_info.objects.filter(poster_id_id=3090393809).order_by('-datetime')
     
-    articles = weixin_article_info.objects.select_related('weixin_poster').order_by('-datetime')
+    article_list = weixin_article_info.objects.select_related('weixin_poster').order_by('-datetime')
+    paginator = Paginator(article_list, 25) # Show 25 contacts per page
+    page = request.GET.get('page')
+    try:
+        articles = paginator.page(page)
+    except PageNotAnInteger:
+        articles = paginator.page(1)
+    except EmptyPage:
+        articles = paginator.page(paginator.num_pages)
     for article in articles:
         # change the datetime format
         article.datetime = datetime.datetime.fromtimestamp(article.datetime).strftime('%Y-%m-%d %H:%M:%S')
     return render_to_response('index.html', {'article_list' : articles})
+    
+def display(request):
+    return HttpResponse('<a href="/weixin/home">Back</a> Cleaned')
 
 def poster(request):
     posters = weixin_poster.objects.all().order_by('poster_id')
