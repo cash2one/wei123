@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^google/',    'weisite.views.google'),
     url(r'^key',       'weisite.views.weixin_log'),
     url(r'^full/',      'weisite.views.full_log'),
+    url(r'^test',      'weisite.views.test'),
 )

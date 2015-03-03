@@ -44,6 +44,10 @@ def poster(request):
     posters = weixin_poster.objects.all().order_by('poster_id')
     return render_to_response('poster.html', {'poster_list' : posters})
 
+def test(request):
+    name = 'ming'
+    return render_to_response('weixin.html', {'name' :  name})
+
 def collect(request):
     netease_pos = common_status.objects.filter(key='netease_pos')
     start_pos = 1
