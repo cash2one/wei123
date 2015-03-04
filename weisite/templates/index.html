@@ -1,14 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="post-nav">
+<div class="container">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-9">
             <ol class="breadcrumb">
                 <li>首页</li>
                 <li>文章</li>
             </ol>
             <h1>微信公众号精选</h1>
+            <div class="author">
+              <img class="avatar-24 mr10" src="http://www.cnr.cn/zhongg/20150303/W020150303080320217907.jpg"></img>
+              <strong>iamming</strong>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <ul class="list_unstyled">
+              <li><button type="button" class="btn btn-success btn-sm">关注</button></li>
+              <li style="margin-top:10px"><button type="button" class="btn btn-success btn-sm">收藏</button></li>
+            </ul>
         </div>
     </div>
       <div class="row">
@@ -47,6 +59,7 @@
           
         </div>
       </div>
+</div>
 </div>
 
 {% endblock %}

@@ -5,7 +5,7 @@
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
   font-family: "Open Sans";
-  padding-top: 50px;
+  padding-top: 0px;
 }
 
 
@@ -72,20 +72,6 @@ body {
  * Main content
  */
 
-.main {
-  padding: 20px;
-}
-@media (min-width: 768px) {
-  .main {
-    padding-right: 40px;
-    padding-left: 40px;
-  }
-}
-.main .page-header {
-  margin-top: 0;
-}
-
-
 /*
  * Placeholder dashboard ideas
  */
@@ -123,4 +109,103 @@ td.collapsable { display:none; }
         display:table-cell;
     }
 }
+
+
+.post-nav {
+  padding: 15px 0 0 0;
+  background: #f3f3f3;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: inherit;
+}
+
+.list_unstyled {
+  padding-left: 0;
+  list-style: none;
+  margin-top: 15px;
+}
+
+.author {
+  margin-top: 10px;
+  color: #999;
+}
+
+.avatar-24 {
+  width: 24px;
+  height: 24px;
+}
+
+.mr10 {
+  margin-right: 10px
+}
+
+.breadcrumb {
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+.global-nav {
+  position: relative;
+  background: #222E2A;
+}
+
+.global-nav .logo {
+  float: left;
+  margin: 0;
+  display: inline-block;
+}
+
+.global-nav .menu {
+  margin: 12px 0 0 10px
+}
+
+.global-nav .menu_item {
+  padding: 0;
+  margin: 0;
+  vertical-align: middle;
+  line-height: 30px;
+  color: #A4BFB4;
+}
+
+.global-nav .logo a {
+  display: block;
+  height: 54px;
+  width: 161px;
+  background: url("http://static.segmentfault.com/build/global/img/logo-w.723608ae.svg") no-repeat left center;
+  background-size: 161px auto;
+}
+
+.global-nav .menu_item a {
+  font-size: 16px;
+  text-decoration: none;
+  color: #A4BFB4;
+  padding: 0 9px;
+  font-weight: bold;
+}
+
+.pull_left {
+  float: left !important;
+}
+
+
+@media (min-width: 1200px) {
+.container {
+  width: 1050px;
+}}
+
+.nav {
+  margin-top: 0;
+  list-style: none;
+}
+
+.list-inline {
+  list-style: none;
+  padding-left: 0;
+}
+
+
 
